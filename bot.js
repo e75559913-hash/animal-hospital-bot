@@ -284,7 +284,11 @@ bot.on('message', (msg) => {
     userProfiles[uid].classes = parts[1] || '—';
     userProfiles[uid].ketcoins = parts[2] || '—';
     users[uid].awaitingExtra = false;
-    bot.sendMessage(msg.chat.id, '✅ Информация сохранена!');
+    bot.sendMessage(msg.chat.id, '✅ Информация сохранена!', {
+      reply_markup: { inline_keyboard: [[{ text: '← Назад в профиль', callback_data: 'profile' }]] }
+    });
+  }
+});
   }
 });
 
