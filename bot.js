@@ -43,14 +43,7 @@ const classes = {
   'Секретный агент': { price: '790 робуксов', lvl1: 'Начинает с пистолетом (20 исп.) и сканером. +2 к вместимости инвентаря.', lvl2: 'Пистолет имеет 24 использования и восстанавливает 1 исп. каждую смену.', lvl3: 'Убийство аномалий из пистолета даёт +4 к рассудку и +5 к деньгам.', desc: 'Чёрный кот в жилете поверх белой рубашки и чёрном галстуке.' }
 };
 
-const welcomeText = `Добро пожаловать в Animal Hospital Bot! :3
-
-Здесь собраны полезные советы, информация о классах и другие функции :)
-
-Используйте кнопки ниже для навигации ^_^
-
-Наш Телеграм Канал: Новости игры и Бота — @NewsAnimalHospitabot`;
-
+const welcomeText = `Добро пожаловать в Animal Hospital Bot! :3\n\nЗдесь собраны полезные советы, информация о классах и другие функции :)\n\nИспользуйте кнопки ниже для навигации ^_^\n\nНаш Телеграм Канал: Новости игры и Бота — @NewsAnimalHospitabot`;
 const adText = '\n\n— — —\nНаш Телеграм Канал: Новости игры и Бота — @NewsAnimalHospitabot';
 
 function getProfile(uid, uname) {
@@ -122,10 +115,10 @@ bot.on('callback_query', async (q) => {
       await bot.editMessageText(`🔔 Уведомления: ${users[uid].notif ? 'включены' : 'выключены'}`, { chat_id: chatId, message_id: msgId, reply_markup: { inline_keyboard: [[{ text: `${notifIcon} Уведомления`, callback_data: 'notif' }], [{ text: '🌐 Язык', callback_data: 'lang' }], [{ text: '← Назад', callback_data: 'back' }]] } });
     } else if (d === 'lang') {
       await bot.editMessageText('🌐 Выберите язык:', { chat_id: chatId, message_id: msgId, reply_markup: { inline_keyboard: [[{ text: '🇷🇺 Русский', callback_data: 'lang_ru' }], [{ text: '🇬🇧 English', callback_data: 'lang_en' }], [{ text: '🇺🇦 Українська', callback_data: 'lang_ua' }], [{ text: '🇰🇿 Қазақша', callback_data: 'lang_kz' }], [{ text: '← Назад', callback_data: 'settings' }]] } });
-    } else if (d === 'lang_ru') { users[uid].lang = 'ru'; await bot.editMessageText('✅ Язык: 🇷🇺 Русский', { chat_id: chatId, message_id: msgId, reply_markup: { inline_keyboard: [[{ text: '← Назад', callback_data: 'settings' }]] } }); }
-    else if (d === 'lang_en') { users[uid].lang = 'en'; await bot.editMessageText('✅ Language: 🇬🇧 English', { chat_id: chatId, message_id: msgId, reply_markup: { inline_keyboard: [[{ text: '← Назад', callback_data: 'settings' }]] } }); }
-    else if (d === 'lang_ua') { users[uid].lang = 'ua'; await bot.editMessageText('✅ Мова: 🇺🇦 Українська', { chat_id: chatId, message_id: msgId, reply_markup: { inline_keyboard: [[{ text: '← Назад', callback_data: 'settings' }]] } }); }
-    else if (d === 'lang_kz') { users[uid].lang = 'kz'; await bot.editMessageText('✅ Тіл: 🇰🇿 Қазақша', { chat_id: chatId, message_id: msgId, reply_markup: { inline_keyboard: [[{ text: '← Назад', callback_data: 'settings' }]] } }); }
+    } else if (d === 'lang_ru') { users[uid].lang = 'ru'; bot.sendMessage(chatId, '✅ Язык: 🇷🇺 Русский'); }
+    else if (d === 'lang_en') { users[uid].lang = 'en'; bot.sendMessage(chatId, '✅ Language: 🇬🇧 English'); }
+    else if (d === 'lang_ua') { users[uid].lang = 'ua'; bot.sendMessage(chatId, '✅ Мова: 🇺🇦 Українська'); }
+    else if (d === 'lang_kz') { users[uid].lang = 'kz'; bot.sendMessage(chatId, '✅ Тіл: 🇰🇿 Қазақша'); }
     else if (d === 'back') { await bot.editMessageText(welcomeText, { chat_id: chatId, message_id: msgId, reply_markup: mainMenu().reply_markup }); }
   } catch (e) { console.log('Ошибка:', e.message); }
   bot.answerCallbackQuery(q.id);
