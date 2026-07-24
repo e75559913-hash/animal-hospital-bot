@@ -289,7 +289,5 @@ bot.on('message', (msg) => {
     });
   }
 });
-  }
-});
 
 console.log('Animal Hospital Bot запущен');
