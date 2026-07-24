@@ -206,7 +206,8 @@ bot.on('callback_query', async (q) => {
 
     else if (d === 'extra') {
       await bot.editMessageText('📝 Введите через запятую:\n1. Количество смен\n2. Ваши классы\n3. Количество Кеткоинов\n\nПример: 150, Стажёр Медсестра, 5000', {
-        chat_id: chatId, message_id: msgId
+        chat_id: chatId, message_id: msgId,
+        reply_markup: { inline_keyboard: [[{ text: '← Назад', callback_data: 'profile' }]] }
       });
       users[uid].awaitingExtra = true;
     }
