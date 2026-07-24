@@ -22,12 +22,12 @@ const tips = [
 const facts = [
   'Стажёр — единственный класс, имеющий несколько цветовых вариантов.',
   'Медсестра является продавщицей в магазине предметов. Самый дешёвый класс после Стажёра.',
-  'Внешность Рона основана на старом образе Секретаря. Рон носит чемодан и имеет коричневые волосы.',
+  'Внешность Рона основана на старом образе Секретаря.',
   'Парамедик, Охранник и Секретный агент — единственные классы, которые появляются с предметами.',
   'Психолог — единственный класс, который даёт не только положительные, но и отрицательные эффекты.',
   'Хирург — самый дорогой класс за Кеткоины.',
-  'Секретный агент и Главная медсестра — единственные классы за робуксы. Агент — самый дорогой.',
-  'Если посмотреть на Секретного агента через стеклянную дверь, его рот и нос становятся видны. Рот угловатый, в виде буквы V.'
+  'Секретный агент и Главная медсестра — единственные классы за робуксы.',
+  'Если посмотреть на Секретного агента через стеклянную дверь, его рот и нос становятся видны.'
 ];
 
 const classes = {
@@ -36,7 +36,7 @@ const classes = {
     lvl1: 'Начинает игру с 10 бонусными единицами рассудка.',
     lvl2: 'Начинает игру с 15 бонусными единицами рассудка.',
     lvl3: 'Начинает игру с 20 бонусными единицами рассудка.',
-    desc: 'Жёлтый антропоморфный кролик в белой куртке с капюшоном. Может быть розовым, синим, зелёным или жёлтым.'
+    desc: 'Жёлтый антропоморфный кролик в белой куртке с капюшоном.'
   },
   'Медсестра': {
     price: '20 Кеткоинов',
@@ -57,7 +57,7 @@ const classes = {
     lvl1: 'Начинает игру с большой скоростной колы (6 использований).',
     lvl2: 'Начинает игру с большой скоростной колы (9 использований).',
     lvl3: 'Начинает игру с большой скоростной колы (9 исп.). Восстанавливает 1 использование каждую смену.',
-    desc: 'Светло-коричневый олень в тёмно-зелёной форме и неоново-зелёном жилете. На шее — стетоскоп.'
+    desc: 'Светло-коричневый олень в тёмно-зелёной форме и неоново-зелёном жилете.'
   },
   'Психолог': {
     price: '500 Кеткоинов',
@@ -71,7 +71,7 @@ const classes = {
     lvl1: 'Восстанавливает 1 единицу рассудка при лечении пациентов.',
     lvl2: 'Восстанавливает рассудок при лечении, +15 бонусного рассудка.',
     lvl3: 'Восстанавливает рассудок при лечении, +20 бонусного рассудка.',
-    desc: 'Оранжевый лось в голубом халате и белом консультационном халате. На голове — налобное зеркало.'
+    desc: 'Оранжевый лось в голубом халате и белом консультационном халате.'
   },
   'Охранник': {
     price: '1250 Кеткоинов',
@@ -85,7 +85,7 @@ const classes = {
     lvl1: '+3 к максимальной вместимости инвентаря.',
     lvl2: '+3 к вместимости инвентаря, +10 бонусный рассудок.',
     lvl3: '+3 к вместимости инвентаря, начало игры с перком Особая техника.',
-    desc: 'Белая кошка с серыми пятнами в голубом халате. На голове — белая шапочка с красным сердечком.'
+    desc: 'Белая кошка с серыми пятнами в голубом халате.'
   },
   'Хирург': {
     price: '2500 Кеткоинов',
@@ -99,17 +99,27 @@ const classes = {
     lvl1: 'Начинает с пистолетом (20 исп.) и сканером. +2 к вместимости инвентаря.',
     lvl2: 'Пистолет имеет 24 использования и восстанавливает 1 исп. каждую смену.',
     lvl3: 'Убийство аномалий из пистолета даёт +4 к рассудку и +5 к деньгам.',
-    desc: 'Чёрный кот в жилете поверх белой рубашки и чёрном галстуке. Глаза с ярко-жёлтой склерой.'
+    desc: 'Чёрный кот в жилете поверх белой рубашки и чёрном галстуке.'
   }
 };
+
+const welcomeText = `Добро пожаловать в Animal Hospital Bot! :3
+
+Здесь собраны полезные советы, информация о классах и другие функции :)
+
+Используйте кнопки ниже для навигации ^_^
+
+Наш Телеграм Канал: Новости игры и Бота — @NewsAnimalHospitabot`;
+
+const adText = '\n\n— — —\nНаш Телеграм Канал: Новости игры и Бота — @NewsAnimalHospitabot';
 
 function getProfile(uid, uname) {
   const profile = userProfiles[uid] || {};
   const days = Math.floor((Date.now() - (users[uid]?.joined || Date.now())) / 86400000);
-  let txt = `👤 ПРОФИЛЬ\n\n👋 Юзернейм: @${uname}\n📅 Вы в боте: ${days} дней`;
-  if (profile.shifts) txt += `\n🔄 Смен: ${profile.shifts}`;
-  if (profile.classes) txt += `\n⚔️ Классы: ${profile.classes}`;
-  if (profile.ketcoins) txt += `\n💰 Кеткоинов: ${profile.ketcoins}`;
+  let txt = `Профиль\n\nИмя: @${uname}\nДней в боте: ${days}`;
+  if (profile.shifts) txt += `\nСмен: ${profile.shifts}`;
+  if (profile.classes) txt += `\nКлассы: ${profile.classes}`;
+  if (profile.ketcoins) txt += `\nКеткоинов: ${profile.ketcoins}`;
   return txt;
 }
 
@@ -117,158 +127,136 @@ function mainMenu() {
   return {
     reply_markup: {
       inline_keyboard: [
-        [{ text: '🐾 Полезные советы', callback_data: 'tips' }],
-        [{ text: '⚔️ Способности классов', callback_data: 'classes' }],
-        [{ text: '💡 Интересные факты', callback_data: 'facts' }],
-        [{ text: '👤 Профиль', callback_data: 'profile' }],
-        [{ text: '⚙️ Настройки', callback_data: 'settings' }]
+        [{ text: 'Полезные советы', callback_data: 'tips' }],
+        [{ text: 'Способности классов', callback_data: 'classes' }],
+        [{ text: 'Интересные факты', callback_data: 'facts' }],
+        [{ text: 'Профиль', callback_data: 'profile' }],
+        [{ text: 'Настройки', callback_data: 'settings' }]
       ]
     }
   };
 }
 
-// ========== КОМАНДА /start ==========
 bot.onText(/\/start/, (msg) => {
   const uid = msg.from.id;
   if (!users[uid]) users[uid] = { lang: 'ru', notif: false, joined: Date.now() };
-  bot.sendMessage(msg.chat.id, 'Привет! Это бот по игре Animal Hospital. Здесь собраны полезные советы как для новичков, так и для профи, а также другие интересные функции. Нажимай на кнопки снизу 👇', mainMenu());
+  bot.sendMessage(msg.chat.id, welcomeText, mainMenu());
 });
 
-// ========== ОБРАБОТКА КНОПОК ==========
 bot.on('callback_query', (q) => {
   const uid = q.from.id;
   const d = q.data;
 
-  // ПОЛЕЗНЫЕ СОВЕТЫ
   if (d === 'tips') {
-    let txt = '🐾 ПОЛЕЗНЫЕ СОВЕТЫ:\n\n' + tips.join('\n\n');
-    const keyboard = {
-      reply_markup: {
-        inline_keyboard: [[{ text: '🔙 Назад', callback_data: 'back' }]]
-      }
-    };
-    bot.sendMessage(q.message.chat.id, txt, keyboard);
+    bot.sendMessage(q.message.chat.id, 'Полезные советы:\n\n' + tips.join('\n\n') + adText, {
+      reply_markup: { inline_keyboard: [[{ text: '← Назад', callback_data: 'back' }]] }
+    });
   }
 
-  // КЛАССЫ
   else if (d === 'classes') {
     const classNames = Object.keys(classes);
-    const buttons = classNames.map(name => ([{ text: name, callback_data: 'class_' + name }]));
-    buttons.push([{ text: '🔙 Назад', callback_data: 'back' }]);
-    bot.sendMessage(q.message.chat.id, '⚔️ ВЫБЕРИТЕ КЛАСС:', {
+    const buttons = [];
+    for (let i = 0; i < classNames.length; i += 2) {
+      const row = [{ text: classNames[i], callback_data: 'class_' + classNames[i] }];
+      if (classNames[i + 1]) row.push({ text: classNames[i + 1], callback_data: 'class_' + classNames[i + 1] });
+      buttons.push(row);
+    }
+    buttons.push([{ text: '← Назад', callback_data: 'back' }]);
+    bot.sendMessage(q.message.chat.id, 'Выберите класс:' + adText, {
       reply_markup: { inline_keyboard: buttons }
     });
   }
 
-  // КОНКРЕТНЫЙ КЛАСС
   else if (d.startsWith('class_')) {
     const name = d.replace('class_', '');
     const c = classes[name];
     if (c) {
-      let txt = `⚔️ КЛАСС: ${name}\n💰 Цена: ${c.price}\n\n📊 УРОВНИ:\n🔹 Уровень 1: ${c.lvl1}\n🔹 Уровень 2: ${c.lvl2}\n🔹 Уровень 3: ${c.lvl3}\n\n👁️ ВНЕШНИЙ ВИД:\n${c.desc}`;
-      const keyboard = {
-        reply_markup: {
-          inline_keyboard: [[{ text: '🔙 К списку классов', callback_data: 'classes' }]]
-        }
-      };
-      bot.sendMessage(q.message.chat.id, txt, keyboard);
+      let txt = `${name}\nЦена: ${c.price}\n\nУровни:\n1 ур.: ${c.lvl1}\n2 ур.: ${c.lvl2}\n3 ур.: ${c.lvl3}\n\nВнешний вид: ${c.desc}`;
+      bot.sendMessage(q.message.chat.id, txt, {
+        reply_markup: { inline_keyboard: [[{ text: '← К списку классов', callback_data: 'classes' }]] }
+      });
     }
   }
 
-  // ИНТЕРЕСНЫЕ ФАКТЫ
   else if (d === 'facts') {
-    let txt = '💡 ИНТЕРЕСНЫЕ ФАКТЫ О КЛАССАХ:\n\n' + facts.join('\n\n');
-    const keyboard = {
-      reply_markup: {
-        inline_keyboard: [[{ text: '🔙 Назад', callback_data: 'back' }]]
-      }
-    };
-    bot.sendMessage(q.message.chat.id, txt, keyboard);
+    bot.sendMessage(q.message.chat.id, 'Интересные факты:\n\n' + facts.join('\n\n') + adText, {
+      reply_markup: { inline_keyboard: [[{ text: '← Назад', callback_data: 'back' }]] }
+    });
   }
 
-  // ПРОФИЛЬ
   else if (d === 'profile') {
     const uname = q.from.username || q.from.first_name || 'Игрок';
-    let txt = getProfile(uid, uname);
-    const keyboard = {
+    bot.sendMessage(q.message.chat.id, getProfile(uid, uname), {
       reply_markup: {
         inline_keyboard: [
-          [{ text: '📝 Указать доп. информацию', callback_data: 'extra' }],
-          [{ text: '🔙 Назад', callback_data: 'back' }]
+          [{ text: 'Указать доп. информацию', callback_data: 'extra' }],
+          [{ text: '← Назад', callback_data: 'back' }]
         ]
       }
-    };
-    bot.sendMessage(q.message.chat.id, txt, keyboard);
+    });
   }
 
-  // ДОП. ИНФА
   else if (d === 'extra') {
-    bot.sendMessage(q.message.chat.id, 'Введите через запятую:\n1. Сколько у вас смен\n2. Какие классы у вас есть\n3. Сколько у вас Кеткоинов\n\nПример: 150, Стажёр Медсестра, 5000');
+    bot.sendMessage(q.message.chat.id, 'Введите через запятую:\n1. Количество смен\n2. Ваши классы\n3. Количество Кеткоинов\n\nПример: 150, Стажёр Медсестра, 5000');
     users[uid].awaitingExtra = true;
   }
 
-  // НАСТРОЙКИ
   else if (d === 'settings') {
-    const keyboard = {
+    const notifIcon = users[uid].notif ? '✅' : '❌';
+    bot.sendMessage(q.message.chat.id, 'Настройки:', {
       reply_markup: {
         inline_keyboard: [
-          [{ text: '🔔 Уведомления', callback_data: 'notif' }],
-          [{ text: '🌐 Язык', callback_data: 'lang' }],
-          [{ text: '🔙 Назад', callback_data: 'back' }]
+          [{ text: `${notifIcon} Уведомления`, callback_data: 'notif' }],
+          [{ text: 'Язык', callback_data: 'lang' }],
+          [{ text: '← Назад', callback_data: 'back' }]
         ]
       }
-    };
-    bot.sendMessage(q.message.chat.id, '⚙️ НАСТРОЙКИ\n\nВыберите действие 👇', keyboard);
+    });
   }
 
-  // УВЕДОМЛЕНИЯ
   else if (d === 'notif') {
     users[uid].notif = !users[uid].notif;
-    bot.sendMessage(q.message.chat.id, users[uid].notif ? '🔔 Уведомления включены' : '🔔 Уведомления выключены');
+    const notifIcon = users[uid].notif ? '✅' : '❌';
+    bot.sendMessage(q.message.chat.id, `Уведомления: ${users[uid].notif ? 'включены' : 'выключены'}`, {
+      reply_markup: {
+        inline_keyboard: [
+          [{ text: `${notifIcon} Уведомления`, callback_data: 'notif' }],
+          [{ text: 'Язык', callback_data: 'lang' }],
+          [{ text: '← Назад', callback_data: 'back' }]
+        ]
+      }
+    });
   }
 
-  // ЯЗЫК
   else if (d === 'lang') {
-    const keyboard = {
+    bot.sendMessage(q.message.chat.id, 'Выберите язык:', {
       reply_markup: {
         inline_keyboard: [
           [{ text: '🇷🇺 Русский', callback_data: 'lang_ru' }],
           [{ text: '🇬🇧 English', callback_data: 'lang_en' }],
           [{ text: '🇺🇦 Українська', callback_data: 'lang_ua' }],
-          [{ text: '🔙 Назад', callback_data: 'settings' }]
+          [{ text: '🇰🇿 Қазақша', callback_data: 'lang_kz' }],
+          [{ text: '← Назад', callback_data: 'settings' }]
         ]
       }
-    };
-    bot.sendMessage(q.message.chat.id, '🌐 Выберите язык:', keyboard);
+    });
   }
 
-  // СМЕНА ЯЗЫКА
-  else if (d === 'lang_ru') {
-    users[uid].lang = 'ru';
-    bot.sendMessage(q.message.chat.id, '✅ Язык изменён на Русский');
-  }
-  else if (d === 'lang_en') {
-    users[uid].lang = 'en';
-    bot.sendMessage(q.message.chat.id, '✅ Language changed to English');
-  }
-  else if (d === 'lang_ua') {
-    users[uid].lang = 'ua';
-    bot.sendMessage(q.message.chat.id, '✅ Мову змінено на Українську');
-  }
+  else if (d === 'lang_ru') { users[uid].lang = 'ru'; bot.sendMessage(q.message.chat.id, 'Язык: 🇷🇺 Русский'); }
+  else if (d === 'lang_en') { users[uid].lang = 'en'; bot.sendMessage(q.message.chat.id, 'Language: 🇬🇧 English'); }
+  else if (d === 'lang_ua') { users[uid].lang = 'ua'; bot.sendMessage(q.message.chat.id, 'Мова: 🇺🇦 Українська'); }
+  else if (d === 'lang_kz') { users[uid].lang = 'kz'; bot.sendMessage(q.message.chat.id, 'Тіл: 🇰🇿 Қазақша'); }
 
-  // НАЗАД
   else if (d === 'back') {
-    bot.sendMessage(q.message.chat.id, 'Привет! Это бот по игре Animal Hospital. Здесь собраны полезные советы как для новичков, так и для профи, а также другие интересные функции. Нажимай на кнопки снизу 👇', mainMenu());
+    bot.sendMessage(q.message.chat.id, welcomeText, mainMenu());
   }
 
   bot.answerCallbackQuery(q.id);
 });
 
-// ========== ОБРАБОТКА ТЕКСТОВЫХ СООБЩЕНИЙ ==========
 bot.on('message', (msg) => {
   const uid = msg.from.id;
   const text = msg.text?.trim();
-
   if (users[uid]?.awaitingExtra && text && !text.startsWith('/')) {
     const parts = text.split(',').map(s => s.trim());
     if (!userProfiles[uid]) userProfiles[uid] = {};
@@ -276,8 +264,8 @@ bot.on('message', (msg) => {
     userProfiles[uid].classes = parts[1] || '—';
     userProfiles[uid].ketcoins = parts[2] || '—';
     users[uid].awaitingExtra = false;
-    bot.sendMessage(msg.chat.id, '✅ Информация сохранена!');
+    bot.sendMessage(msg.chat.id, 'Информация сохранена.');
   }
 });
 
-console.log('🏥 Animal Hospital Бот запущен!');
+console.log('Animal Hospital Bot запущен');
