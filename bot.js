@@ -116,10 +116,10 @@ const adText = '\n\n— — —\nНаш Телеграм Канал: Новос�
 function getProfile(uid, uname) {
   const profile = userProfiles[uid] || {};
   const days = Math.floor((Date.now() - (users[uid]?.joined || Date.now())) / 86400000);
-  let txt = `Профиль\n\nИмя: @${uname}\nДней в боте: ${days}`;
-  if (profile.shifts) txt += `\nСмен: ${profile.shifts}`;
-  if (profile.classes) txt += `\nКлассы: ${profile.classes}`;
-  if (profile.ketcoins) txt += `\nКеткоинов: ${profile.ketcoins}`;
+  let txt = `👤 Профиль\n\n😎 Имя: @${uname}\n📅 Дней в боте: ${days}`;
+  if (profile.shifts) txt += `\n🔄 Смен: ${profile.shifts}`;
+  if (profile.classes) txt += `\n⚔️ Классы: ${profile.classes}`;
+  if (profile.ketcoins) txt += `\n💰 Кеткоинов: ${profile.ketcoins}`;
   return txt;
 }
 
@@ -127,11 +127,11 @@ function mainMenu() {
   return {
     reply_markup: {
       inline_keyboard: [
-        [{ text: 'Полезные советы', callback_data: 'tips' }],
-        [{ text: 'Способности классов', callback_data: 'classes' }],
-        [{ text: 'Интересные факты', callback_data: 'facts' }],
-        [{ text: 'Профиль', callback_data: 'profile' }],
-        [{ text: 'Настройки', callback_data: 'settings' }]
+        [{ text: '💡 Полезные советы', callback_data: 'tips' }],
+        [{ text: '⚔️ Способности классов', callback_data: 'classes' }],
+        [{ text: '📚 Интересные факты', callback_data: 'facts' }],
+        [{ text: '👤 Профиль', callback_data: 'profile' }],
+        [{ text: '⚙️ Настройки', callback_data: 'settings' }]
       ]
     }
   };
@@ -143,112 +143,131 @@ bot.onText(/\/start/, (msg) => {
   bot.sendMessage(msg.chat.id, welcomeText, mainMenu());
 });
 
-bot.on('callback_query', (q) => {
+bot.on('callback_query', async (q) => {
   const uid = q.from.id;
   const d = q.data;
+  const chatId = q.message.chat.id;
+  const msgId = q.message.message_id;
 
-  if (d === 'tips') {
-    bot.sendMessage(q.message.chat.id, 'Полезные советы:\n\n' + tips.join('\n\n') + adText, {
-      reply_markup: { inline_keyboard: [[{ text: '← Назад', callback_data: 'back' }]] }
-    });
-  }
-
-  else if (d === 'classes') {
-    const classNames = Object.keys(classes);
-    const buttons = [];
-    for (let i = 0; i < classNames.length; i += 2) {
-      const row = [{ text: classNames[i], callback_data: 'class_' + classNames[i] }];
-      if (classNames[i + 1]) row.push({ text: classNames[i + 1], callback_data: 'class_' + classNames[i + 1] });
-      buttons.push(row);
-    }
-    buttons.push([{ text: '← Назад', callback_data: 'back' }]);
-    bot.sendMessage(q.message.chat.id, 'Выберите класс:' + adText, {
-      reply_markup: { inline_keyboard: buttons }
-    });
-  }
-
-  else if (d.startsWith('class_')) {
-    const name = d.replace('class_', '');
-    const c = classes[name];
-    if (c) {
-      let txt = `${name}\nЦена: ${c.price}\n\nУровни:\n1 ур.: ${c.lvl1}\n2 ур.: ${c.lvl2}\n3 ур.: ${c.lvl3}\n\nВнешний вид: ${c.desc}`;
-      bot.sendMessage(q.message.chat.id, txt, {
-        reply_markup: { inline_keyboard: [[{ text: '← К списку классов', callback_data: 'classes' }]] }
+  try {
+    if (d === 'tips') {
+      await bot.editMessageText('💡 Полезные советы:\n\n' + tips.join('\n\n') + adText, {
+        chat_id: chatId, message_id: msgId,
+        reply_markup: { inline_keyboard: [[{ text: '← Назад', callback_data: 'back' }]] }
       });
     }
-  }
 
-  else if (d === 'facts') {
-    bot.sendMessage(q.message.chat.id, 'Интересные факты:\n\n' + facts.join('\n\n') + adText, {
-      reply_markup: { inline_keyboard: [[{ text: '← Назад', callback_data: 'back' }]] }
-    });
-  }
-
-  else if (d === 'profile') {
-    const uname = q.from.username || q.from.first_name || 'Игрок';
-    bot.sendMessage(q.message.chat.id, getProfile(uid, uname), {
-      reply_markup: {
-        inline_keyboard: [
-          [{ text: 'Указать доп. информацию', callback_data: 'extra' }],
-          [{ text: '← Назад', callback_data: 'back' }]
-        ]
+    else if (d === 'classes') {
+      const classNames = Object.keys(classes);
+      const buttons = [];
+      for (let i = 0; i < classNames.length; i += 2) {
+        const row = [{ text: classNames[i], callback_data: 'class_' + classNames[i] }];
+        if (classNames[i + 1]) row.push({ text: classNames[i + 1], callback_data: 'class_' + classNames[i + 1] });
+        buttons.push(row);
       }
-    });
-  }
+      buttons.push([{ text: '← Назад', callback_data: 'back' }]);
+      await bot.editMessageText('⚔️ Выберите класс:' + adText, {
+        chat_id: chatId, message_id: msgId,
+        reply_markup: { inline_keyboard: buttons }
+      });
+    }
 
-  else if (d === 'extra') {
-    bot.sendMessage(q.message.chat.id, 'Введите через запятую:\n1. Количество смен\n2. Ваши классы\n3. Количество Кеткоинов\n\nПример: 150, Стажёр Медсестра, 5000');
-    users[uid].awaitingExtra = true;
-  }
-
-  else if (d === 'settings') {
-    const notifIcon = users[uid].notif ? '✅' : '❌';
-    bot.sendMessage(q.message.chat.id, 'Настройки:', {
-      reply_markup: {
-        inline_keyboard: [
-          [{ text: `${notifIcon} Уведомления`, callback_data: 'notif' }],
-          [{ text: 'Язык', callback_data: 'lang' }],
-          [{ text: '← Назад', callback_data: 'back' }]
-        ]
+    else if (d.startsWith('class_')) {
+      const name = d.replace('class_', '');
+      const c = classes[name];
+      if (c) {
+        let txt = `⚔️ ${name}\n💰 Цена: ${c.price}\n\n📊 Уровни:\n🔹 1 ур.: ${c.lvl1}\n🔹 2 ур.: ${c.lvl2}\n🔹 3 ур.: ${c.lvl3}\n\n👁️ Внешний вид: ${c.desc}`;
+        await bot.editMessageText(txt, {
+          chat_id: chatId, message_id: msgId,
+          reply_markup: { inline_keyboard: [[{ text: '← К списку классов', callback_data: 'classes' }]] }
+        });
       }
-    });
-  }
+    }
 
-  else if (d === 'notif') {
-    users[uid].notif = !users[uid].notif;
-    const notifIcon = users[uid].notif ? '✅' : '❌';
-    bot.sendMessage(q.message.chat.id, `Уведомления: ${users[uid].notif ? 'включены' : 'выключены'}`, {
-      reply_markup: {
-        inline_keyboard: [
-          [{ text: `${notifIcon} Уведомления`, callback_data: 'notif' }],
-          [{ text: 'Язык', callback_data: 'lang' }],
-          [{ text: '← Назад', callback_data: 'back' }]
-        ]
-      }
-    });
-  }
+    else if (d === 'facts') {
+      await bot.editMessageText('📚 Интересные факты:\n\n' + facts.join('\n\n') + adText, {
+        chat_id: chatId, message_id: msgId,
+        reply_markup: { inline_keyboard: [[{ text: '← Назад', callback_data: 'back' }]] }
+      });
+    }
 
-  else if (d === 'lang') {
-    bot.sendMessage(q.message.chat.id, 'Выберите язык:', {
-      reply_markup: {
-        inline_keyboard: [
-          [{ text: '🇷🇺 Русский', callback_data: 'lang_ru' }],
-          [{ text: '🇬🇧 English', callback_data: 'lang_en' }],
-          [{ text: '🇺🇦 Українська', callback_data: 'lang_ua' }],
-          [{ text: '🇰🇿 Қазақша', callback_data: 'lang_kz' }],
-          [{ text: '← Назад', callback_data: 'settings' }]
-        ]
-      }
-    });
-  }
+    else if (d === 'profile') {
+      const uname = q.from.username || q.from.first_name || 'Игрок';
+      await bot.editMessageText(getProfile(uid, uname), {
+        chat_id: chatId, message_id: msgId,
+        reply_markup: {
+          inline_keyboard: [
+            [{ text: '📝 Указать доп. информацию', callback_data: 'extra' }],
+            [{ text: '← Назад', callback_data: 'back' }]
+          ]
+        }
+      });
+    }
 
-  else if (d === 'lang_ru') { users[uid].lang = 'ru'; bot.sendMessage(q.message.chat.id, 'Язык: 🇷🇺 Русский'); }
-  else if (d === 'lang_en') { users[uid].lang = 'en'; bot.sendMessage(q.message.chat.id, 'Language: 🇬🇧 English'); }
-  else if (d === 'lang_ua') { users[uid].lang = 'ua'; bot.sendMessage(q.message.chat.id, 'Мова: 🇺🇦 Українська'); }
-  else if (d === 'lang_kz') { users[uid].lang = 'kz'; bot.sendMessage(q.message.chat.id, 'Тіл: 🇰🇿 Қазақша'); }
+    else if (d === 'extra') {
+      await bot.editMessageText('📝 Введите через запятую:\n1. Количество смен\n2. Ваши классы\n3. Количество Кеткоинов\n\nПример: 150, Стажёр Медсестра, 5000', {
+        chat_id: chatId, message_id: msgId
+      });
+      users[uid].awaitingExtra = true;
+    }
 
-  else if (d === 'back') {
-    bot.sendMessage(q.message.chat.id, welcomeText, mainMenu());
+    else if (d === 'settings') {
+      const notifIcon = users[uid].notif ? '✅' : '❌';
+      await bot.editMessageText('⚙️ Настройки:', {
+        chat_id: chatId, message_id: msgId,
+        reply_markup: {
+          inline_keyboard: [
+            [{ text: `${notifIcon} Уведомления`, callback_data: 'notif' }],
+            [{ text: '🌐 Язык', callback_data: 'lang' }],
+            [{ text: '← Назад', callback_data: 'back' }]
+          ]
+        }
+      });
+    }
+
+    else if (d === 'notif') {
+      users[uid].notif = !users[uid].notif;
+      const notifIcon = users[uid].notif ? '✅' : '❌';
+      await bot.editMessageText(`🔔 Уведомления: ${users[uid].notif ? 'включены' : 'выключены'}`, {
+        chat_id: chatId, message_id: msgId,
+        reply_markup: {
+          inline_keyboard: [
+            [{ text: `${notifIcon} Уведомления`, callback_data: 'notif' }],
+            [{ text: '🌐 Язык', callback_data: 'lang' }],
+            [{ text: '← Назад', callback_data: 'back' }]
+          ]
+        }
+      });
+    }
+
+    else if (d === 'lang') {
+      await bot.editMessageText('🌐 Выберите язык:', {
+        chat_id: chatId, message_id: msgId,
+        reply_markup: {
+          inline_keyboard: [
+            [{ text: '🇷🇺 Русский', callback_data: 'lang_ru' }],
+            [{ text: '🇬🇧 English', callback_data: 'lang_en' }],
+            [{ text: '🇺🇦 Українська', callback_data: 'lang_ua' }],
+            [{ text: '🇰🇿 Қазақша', callback_data: 'lang_kz' }],
+            [{ text: '← Назад', callback_data: 'settings' }]
+          ]
+        }
+      });
+    }
+
+    else if (d === 'lang_ru') { users[uid].lang = 'ru'; await bot.editMessageText('✅ Язык: 🇷🇺 Русский', { chat_id: chatId, message_id: msgId }); }
+    else if (d === 'lang_en') { users[uid].lang = 'en'; await bot.editMessageText('✅ Language: 🇬🇧 English', { chat_id: chatId, message_id: msgId }); }
+    else if (d === 'lang_ua') { users[uid].lang = 'ua'; await bot.editMessageText('✅ Мова: 🇺🇦 Українська', { chat_id: chatId, message_id: msgId }); }
+    else if (d === 'lang_kz') { users[uid].lang = 'kz'; await bot.editMessageText('✅ Тіл: 🇰🇿 Қазақша', { chat_id: chatId, message_id: msgId }); }
+
+    else if (d === 'back') {
+      await bot.editMessageText(welcomeText, {
+        chat_id: chatId, message_id: msgId,
+        reply_markup: mainMenu().reply_markup
+      });
+    }
+  } catch (e) {
+    console.log('Ошибка:', e.message);
   }
 
   bot.answerCallbackQuery(q.id);
@@ -264,7 +283,7 @@ bot.on('message', (msg) => {
     userProfiles[uid].classes = parts[1] || '—';
     userProfiles[uid].ketcoins = parts[2] || '—';
     users[uid].awaitingExtra = false;
-    bot.sendMessage(msg.chat.id, 'Информация сохранена.');
+    bot.sendMessage(msg.chat.id, '✅ Информация сохранена!');
   }
 });
 
