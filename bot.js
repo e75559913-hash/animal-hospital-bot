@@ -9,7 +9,7 @@ const userProfiles = {};
 const tips = [
   '1. Если видите подкроватного монстра — дайте ему клиновый сироп, и он исчезнет.',
   '2. Когда приходит Барни/Аномалия, которая бьёт окно, вы можете отдать кофе и не потерять его.',
-  '3. Многие знают, что Слаймов можно убирать огнетушителем. Но их также можно убирать сиропом от кашля.',
+  '3. Слаймов можно убирать огнетушителем, но сиропом от кашля — намного быстрее.',
   '4. Когда начался пожар — тушите его не полностью. Оставьте с краю 1 огонёк.',
   '5. Когда в 8-й комнате идёт операция — встаньте к центру на пациента.',
   '6. Невидимых человечков можно убивать огнетушителем.',
@@ -23,24 +23,24 @@ const facts = [
   'Стажёр — единственный класс, имеющий несколько цветовых вариантов.',
   'Медсестра является продавщицей в магазине предметов.',
   'Внешность Рона основана на старом образе Секретаря.',
-  'Парамедик, Охранник и Секретный агент — единственные классы, которые появляются с предметами.',
-  'Психолог — единственный класс, который даёт не только положительные, но и отрицательные эффекты.',
+  'Парамедик, Охранник и Секретный агент — единственные классы с предметами.',
+  'Психолог — единственный класс с отрицательными эффектами.',
   'Хирург — самый дорогой класс за Кеткоины.',
   'Секретный агент и Главная медсестра — единственные классы за робуксы.',
-  'Если посмотреть на Секретного агента через стеклянную дверь, его рот и нос становятся видны.'
+  'У Секретного агента виден рот и нос через стеклянную дверь.'
 ];
 
 const classes = {
-  'Стажёр': { price: 'Бесплатно', lvl1: 'Начинает игру с 10 бонусными единицами рассудка.', lvl2: 'Начинает игру с 15 бонусными единицами рассудка.', lvl3: 'Начинает игру с 20 бонусными единицами рассудка.', desc: 'Жёлтый кролик в белой куртке.' },
-  'Медсестра': { price: '20 Кеткоинов', lvl1: '+1 к макс. вместимости инвентаря.', lvl2: '+2 к макс. вместимости инвентаря.', lvl3: '+3 к макс. вместимости инвентаря.', desc: 'Розовая собака в голубом халате.' },
-  'Секретарь': { price: '120 Кеткоинов', lvl1: 'Восстанавливает 1 ед. рассудка при регистрации.', lvl2: 'Восст. рассудок при регистрации, +5 бонусных очков.', lvl3: 'Восст. рассудок при регистрации, +10 бонусных очков.', desc: 'Фиолетовая овца в белой рубашке.' },
-  'Парамедик': { price: '250 Кеткоинов', lvl1: 'Начинает с большой скоростной колой (6 исп.).', lvl2: 'Начинает с большой скоростной колой (9 исп.).', lvl3: 'Начинает с большой скоростной колой (9 исп.). +1 каждую смену.', desc: 'Светло-коричневый олень в зелёной форме.' },
-  'Психолог': { price: '500 Кеткоинов', lvl1: 'Все эффекты рассудка удваиваются.', lvl2: 'Эффекты восст. рассудка удваиваются, 7.5% игнор потери.', lvl3: 'Эффекты восст. рассудка удваиваются, 15% игнор потери.', desc: 'Зелёный кролик с очками и усами.' },
-  'Доктор': { price: '900 Кеткоинов', lvl1: 'Восстанавливает 1 ед. рассудка при лечении.', lvl2: 'Восст. рассудок при лечении, +15 бонусного.', lvl3: 'Восст. рассудок при лечении, +20 бонусного.', desc: 'Оранжевый лось в голубом халате.' },
-  'Охранник': { price: '1250 Кеткоинов', lvl1: 'Начинает с электрошокером (5 исп.).', lvl2: 'Начинает с электрошокером и камерой.', lvl3: 'Начинает с электрошокером и камерой. +1 исп. каждую смену.', desc: 'Серый кот в синей рубашке.' },
-  'Главная медсестра': { price: '190 робуксов', lvl1: '+3 к макс. вместимости инвентаря.', lvl2: '+3 к инвентарю, +10 бонусный рассудок.', lvl3: '+3 к инвентарю, перк Особая техника.', desc: 'Белая кошка в голубом халате.' },
-  'Хирург': { price: '2500 Кеткоинов', lvl1: 'Восст. рассудок и ускорение после лечения.', lvl2: 'Восст. рассудок и долгое ускорение после лечения.', lvl3: 'Удвоенное восст. и долгое ускорение. +10 рассудок.', desc: 'Коричневый лось в белом халате.' },
-  'Секретный агент': { price: '790 робуксов', lvl1: 'Начинает с пистолетом (20 исп.) и сканером. +2 к инвентарю.', lvl2: 'Пистолет 24 исп., +1 каждую смену.', lvl3: 'Убийство аномалий: +4 к рассудку и +5 к деньгам.', desc: 'Чёрный кот в жилете.' }
+  'Стажёр': { price: 'Бесплатно', lvl1: '10 бонусных единиц рассудка.', lvl2: '15 бонусных единиц рассудка.', lvl3: '20 бонусных единиц рассудка.', desc: 'Жёлтый кролик в белой куртке.' },
+  'Медсестра': { price: '20 Кеткоинов', lvl1: '+1 к инвентарю.', lvl2: '+2 к инвентарю.', lvl3: '+3 к инвентарю.', desc: 'Розовая собака в голубом халате.' },
+  'Секретарь': { price: '120 Кеткоинов', lvl1: '+1 рассудка при регистрации.', lvl2: '+5 бонусных очков.', lvl3: '+10 бонусных очков.', desc: 'Фиолетовая овца в очках.' },
+  'Парамедик': { price: '250 Кеткоинов', lvl1: 'Скоростная кола (6 исп.).', lvl2: 'Скоростная кола (9 исп.).', lvl3: 'Кола (9 исп.) +1 каждую смену.', desc: 'Олень в зелёной форме.' },
+  'Психолог': { price: '500 Кеткоинов', lvl1: 'Эффекты рассудка x2.', lvl2: 'Восст. x2, 7.5% игнор потери.', lvl3: 'Восст. x2, 15% игнор потери.', desc: 'Зелёный кролик с очками.' },
+  'Доктор': { price: '900 Кеткоинов', lvl1: '+1 рассудка при лечении.', lvl2: '+15 бонусного.', lvl3: '+20 бонусного.', desc: 'Оранжевый лось в халате.' },
+  'Охранник': { price: '1250 Кеткоинов', lvl1: 'Электрошокер (5 исп.).', lvl2: 'Шокер + камера.', lvl3: 'Шокер + камера, +1 исп. в смену.', desc: 'Серый кот в шляпе.' },
+  'Главная медсестра': { price: '190 робуксов', lvl1: '+3 к инвентарю.', lvl2: '+3 к инвентарю, +10 рассудка.', lvl3: '+3 к инвентарю, Особая техника.', desc: 'Белая кошка в халате.' },
+  'Хирург': { price: '2500 Кеткоинов', lvl1: 'Восст. и ускорение после лечения.', lvl2: 'Долгое ускорение.', lvl3: 'x2 восст. + долгое ускорение.', desc: 'Коричневый лось в шапочке.' },
+  'Секретный агент': { price: '790 робуксов', lvl1: 'Пистолет (20 исп.) + сканер.', lvl2: 'Пистолет (24 исп.) +1 в смену.', lvl3: '+4 рассудка и +5 денег за убийство.', desc: 'Чёрный кот в жилете.' }
 };
 
 const welcomeText = `Добро пожаловать в Animal Hospital Bot! :3
@@ -77,7 +77,7 @@ function mainMenu() {
 
 bot.onText(/\/start/, (msg) => {
   const uid = msg.from.id;
-  if (!users[uid]) users[uid] = { lang: 'ru', notif: false, joined: Date.now() };
+  if (!users[uid]) users[uid] = { notif: false, joined: Date.now() };
   bot.sendMessage(msg.chat.id, welcomeText, mainMenu());
 });
 
@@ -86,7 +86,7 @@ bot.on('callback_query', async (q) => {
   const d = q.data;
   const chatId = q.message.chat.id;
   const msgId = q.message.message_id;
-  if (!users[uid]) users[uid] = { lang: 'ru', notif: false, joined: Date.now() };
+  if (!users[uid]) users[uid] = { notif: false, joined: Date.now() };
 
   try {
     if (d === 'tips') {
@@ -115,18 +115,14 @@ bot.on('callback_query', async (q) => {
       users[uid].awaitingExtra = true;
     } else if (d === 'settings') {
       const notifIcon = users[uid].notif ? '✅' : '❌';
-      await bot.editMessageText('⚙️ Настройки:', { chat_id: chatId, message_id: msgId, reply_markup: { inline_keyboard: [[{ text: `${notifIcon} Уведомления`, callback_data: 'notif' }], [{ text: '🌐 Язык', callback_data: 'lang' }], [{ text: '← Назад', callback_data: 'back' }]] } });
+      await bot.editMessageText('⚙️ Настройки:', { chat_id: chatId, message_id: msgId, reply_markup: { inline_keyboard: [[{ text: `${notifIcon} Уведомления`, callback_data: 'notif' }], [{ text: '← Назад', callback_data: 'back' }]] } });
     } else if (d === 'notif') {
       users[uid].notif = !users[uid].notif;
       const notifIcon = users[uid].notif ? '✅' : '❌';
-      await bot.editMessageText(`🔔 Уведомления: ${users[uid].notif ? 'включены' : 'выключены'}`, { chat_id: chatId, message_id: msgId, reply_markup: { inline_keyboard: [[{ text: `${notifIcon} Уведомления`, callback_data: 'notif' }], [{ text: '🌐 Язык', callback_data: 'lang' }], [{ text: '← Назад', callback_data: 'back' }]] } });
-    } else if (d === 'lang') {
-      await bot.editMessageText('🌐 Выберите язык:', { chat_id: chatId, message_id: msgId, reply_markup: { inline_keyboard: [[{ text: '🇷🇺 Русский', callback_data: 'lang_ru' }], [{ text: '🇬🇧 English', callback_data: 'lang_en' }], [{ text: '🇺🇦 Українська', callback_data: 'lang_ua' }], [{ text: '🇰🇿 Қазақша', callback_data: 'lang_kz' }], [{ text: '← Назад', callback_data: 'settings' }]] } });
-    } else if (d === 'lang_ru') { users[uid].lang = 'ru'; await bot.editMessageText('✅ Язык: 🇷🇺 Русский', { chat_id: chatId, message_id: msgId, reply_markup: { inline_keyboard: [[{ text: '← Назад', callback_data: 'settings' }]] } }); }
-    else if (d === 'lang_en') { users[uid].lang = 'en'; await bot.editMessageText('✅ Language: 🇬🇧 English', { chat_id: chatId, message_id: msgId, reply_markup: { inline_keyboard: [[{ text: '← Назад', callback_data: 'settings' }]] } }); }
-    else if (d === 'lang_ua') { users[uid].lang = 'ua'; await bot.editMessageText('✅ Мова: 🇺🇦 Українська', { chat_id: chatId, message_id: msgId, reply_markup: { inline_keyboard: [[{ text: '← Назад', callback_data: 'settings' }]] } }); }
-    else if (d === 'lang_kz') { users[uid].lang = 'kz'; await bot.editMessageText('✅ Тіл: 🇰🇿 Қазақша', { chat_id: chatId, message_id: msgId, reply_markup: { inline_keyboard: [[{ text: '← Назад', callback_data: 'settings' }]] } }); }
-    else if (d === 'back') { await bot.editMessageText(welcomeText, { chat_id: chatId, message_id: msgId, reply_markup: mainMenu().reply_markup }); }
+      await bot.editMessageText(`🔔 Уведомления: ${users[uid].notif ? 'включены' : 'выключены'}`, { chat_id: chatId, message_id: msgId, reply_markup: { inline_keyboard: [[{ text: `${notifIcon} Уведомления`, callback_data: 'notif' }], [{ text: '← Назад', callback_data: 'back' }]] } });
+    } else if (d === 'back') {
+      await bot.editMessageText(welcomeText, { chat_id: chatId, message_id: msgId, reply_markup: mainMenu().reply_markup });
+    }
   } catch (e) { console.log('Ошибка:', e.message); }
   bot.answerCallbackQuery(q.id);
 });
